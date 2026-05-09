@@ -447,24 +447,7 @@
             <!-- Results Screen -->
             <div id="resultsScreen" class="screen">
                 <h2 style="margin-bottom: 20px; color: #333;">📊 Academic Results</h2>
-                <div class="success-message" id="resultsSuccessMessage">Results saved successfully! ✓</div>
-                <form class="profile-form" onsubmit="handleResultsSave(event)">
-                    <div class="form-group">
-                        <label>Advanced Python (Grade)</label>
-                        <input type="text" id="resultAdvancedPython" placeholder="e.g., 6.8">
-                    </div>
-                    <div class="form-group">
-                        <label>Philosophy of AI (Grade)</label>
-                        <input type="text" id="resultPhilosophyAI" placeholder="e.g., 8.0">
-                    </div>
-                    <div class="form-group">
-                        <label>Explainable AI (Grade)</label>
-                        <input type="text" id="resultExplainableAI" placeholder="e.g., AANV">
-                    </div>
-                    <button type="submit" class="btn-primary">Save Results</button>
-                </form>
-
-                <h3 style="margin-top: 30px; margin-bottom: 15px; color: #FFD700;">Your Grades</h3>
+                <h3 style="margin-bottom: 15px; color: #FFD700;">Your Grades</h3>
                 <div id="resultsList"></div>
             </div>
 
@@ -557,6 +540,26 @@
                     <p style="margin-top: 10px;"><strong>Support:</strong> support@uu.nl<br>Phone: +31 30 253 9111</p>
                 </div>
 
+                <div class="card">
+                    <h3>📝 Edit Results</h3>
+                    <div class="success-message" id="resultsSuccessMessage">Results saved successfully! ✓</div>
+                    <form class="profile-form" onsubmit="handleResultsSave(event)">
+                        <div class="form-group">
+                            <label>Advanced Python (Grade)</label>
+                            <input type="text" id="resultAdvancedPython" placeholder="e.g., 6.8">
+                        </div>
+                        <div class="form-group">
+                            <label>Philosophy of AI (Grade)</label>
+                            <input type="text" id="resultPhilosophyAI" placeholder="e.g., 8.0">
+                        </div>
+                        <div class="form-group">
+                            <label>Explainable AI (Grade)</label>
+                            <input type="text" id="resultExplainableAI" placeholder="e.g., AANV">
+                        </div>
+                        <button type="submit" class="btn-primary">Save Results</button>
+                    </form>
+                </div>
+
                 <button class="btn-logout" onclick="handleLogout()">🚪 Logout</button>
             </div>
         </main>
@@ -610,6 +613,9 @@
             }
             if (screenName === 'cards') {
                 updateCardDisplay();
+            }
+            if (screenName === 'more') {
+                loadResults();
             }
         }
 
