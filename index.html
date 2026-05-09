@@ -447,6 +447,24 @@
             <!-- Results Screen -->
             <div id="resultsScreen" class="screen">
                 <h2 style="margin-bottom: 20px; color: #333;">📊 Academic Results</h2>
+                <div class="success-message" id="resultsSuccessMessage">Results saved successfully! ✓</div>
+                <form class="profile-form" onsubmit="handleResultsSave(event)">
+                    <div class="form-group">
+                        <label>Advanced Python (Grade)</label>
+                        <input type="text" id="resultAdvancedPython" placeholder="e.g., 6.8">
+                    </div>
+                    <div class="form-group">
+                        <label>Philosophy of AI (Grade)</label>
+                        <input type="text" id="resultPhilosophyAI" placeholder="e.g., 8.0">
+                    </div>
+                    <div class="form-group">
+                        <label>Explainable AI (Grade)</label>
+                        <input type="text" id="resultExplainableAI" placeholder="e.g., AANV">
+                    </div>
+                    <button type="submit" class="btn-primary">Save Results</button>
+                </form>
+
+                <h3 style="margin-top: 30px; margin-bottom: 15px; color: #FFD700;">Your Grades</h3>
                 <div id="resultsList"></div>
             </div>
 
@@ -563,11 +581,9 @@
         ];
 
         const sampleResults = [
-            { course: 'Mathematics', grade: 'A', score: '9.2/10' },
-            { course: 'Physics', grade: 'B+', score: '8.5/10' },
-            { course: 'Chemistry', grade: 'A-', score: '8.8/10' },
-            { course: 'Biology', grade: 'A', score: '9.0/10' },
-            { course: 'Programming', grade: 'A+', score: '9.5/10' }
+            { course: 'Advanced Python', grade: '6.8', score: '6.8/10' },
+            { course: 'Philosophy of AI', grade: '8', score: '8.0/10' },
+            { course: 'Explainable AI', grade: 'AANV', score: 'AANV' }
         ];
 
         // Initialize app
@@ -689,12 +705,46 @@
             document.getElementById('timetableList').innerHTML = html;
         }
 
-        // Results
+        // Results - Load
+        function loadResults() {
+            const results = JSON.parse(localStorage.getItem('results') || '{}');
+            document.getElementById('resultAdvancedPython').value = results.advancedPython || '6.8';
+            document.getElementById('resultPhilosophyAI').value = results.philosophyAI || '8.0';
+            document.getElementById('resultExplainableAI').value = results.explainableAI || 'AANV';
+        }
+
+        // Results - Save
+        function handleResultsSave(e) {
+            e.preventDefault();
+            const results = {
+                advancedPython: document.getElementById('resultAdvancedPython').value,
+                philosophyAI: document.getElementById('resultPhilosophyAI').value,
+                explainableAI: document.getElementById('resultExplainableAI').value
+            };
+
+            localStorage.setItem('results', JSON.stringify(results));
+
+            // Show success message
+            const msg = document.getElementById('resultsSuccessMessage');
+            msg.classList.add('show');
+            setTimeout(() => msg.classList.remove('show'), 3000);
+
+            renderResults();
+        }
+
+        // Results - Display
         function renderResults() {
-            const html = sampleResults.map(item => `
+            const results = JSON.parse(localStorage.getItem('results') || '{}');
+            const coursesData = [
+                { name: 'Advanced Python', key: 'advancedPython' },
+                { name: 'Philosophy of AI', key: 'philosophyAI' },
+                { name: 'Explainable AI', key: 'explainableAI' }
+            ];
+
+            const html = coursesData.map(item => `
                 <div class="list-item">
-                    <strong>${item.course}</strong>
-                    Grade: ${item.grade} (${item.score})
+                    <strong>${item.name}</strong>
+                    Grade: ${results[item.key] || 'Not set'}
                 </div>
             `).join('');
             document.getElementById('resultsList').innerHTML = html;
